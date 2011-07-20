@@ -24,6 +24,8 @@ import java.util.concurrent.Callable;
 
 import javax.swing.SwingUtilities;
 
+import net.sourceforge.iharder.Base64;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mozilla.browser.MozillaAutomation;
@@ -41,15 +43,19 @@ import org.mozilla.dom.NodeFactory;
 import org.mozilla.interfaces.nsIBaseWindow;
 import org.mozilla.interfaces.nsIClipboardCommands;
 import org.mozilla.interfaces.nsIContextMenuListener;
+import org.mozilla.interfaces.nsIDOMCanvasRenderingContext2D;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMEvent;
 import org.mozilla.interfaces.nsIDOMEventListener;
 import org.mozilla.interfaces.nsIDOMEventTarget;
 import org.mozilla.interfaces.nsIDOMHTMLAnchorElement;
+import org.mozilla.interfaces.nsIDOMHTMLCanvasElement;
+import org.mozilla.interfaces.nsIDOMNSHTMLElement;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.mozilla.interfaces.nsIDOMWindow;
 import org.mozilla.interfaces.nsIDOMWindow2;
+import org.mozilla.interfaces.nsIDOMXULElement;
 import org.mozilla.interfaces.nsIDocShell;
 import org.mozilla.interfaces.nsIInterfaceRequestor;
 import org.mozilla.interfaces.nsIJSContextStack;
@@ -1047,5 +1053,64 @@ public class JBrowserCanvas extends AbstractJBrowserCanvas implements JBrowserCo
 		
 		return interfaceRequestor;
     }
+
+	@Override
+	public byte[] asImage() {
+		String b64data = mozSyncExecQuiet(new Callable<String>() {
+			@Override
+			public String call() throws Exception {
+              //create a hidden browser window with <canvas> element
+              nsIWebBrowser wb = getWebBrowser();
+              nsIDOMDocument doc = wb.getContentDOMWindow().getDocument();
+              nsIDOMElement elem = doc.createElementNS("http://www.w3.org/1999/xhtml", "html:canvas"); //$NON-NLS-1$ //$NON-NLS-2$
+              nsIDOMHTMLCanvasElement canvas = qi(elem, nsIDOMHTMLCanvasElement.class);
+              nsIDOMCanvasRenderingContext2D context = qi(canvas.getContext("2d"), nsIDOMCanvasRenderingContext2D.class); //$NON-NLS-1$
+
+              nsIDOMWindow domWin = getWebBrowser().getContentDOMWindow();
+              //find out size of the document to be rendered
+              int w, h;
+              nsIDOMNSHTMLElement nselem = qi(domWin.getDocument().getDocumentElement(), nsIDOMNSHTMLElement.class);
+              if (nselem != null) {
+                  w =
+                          nselem.getOffsetWidth() > nselem.getScrollWidth() ? nselem.getOffsetWidth() : nselem.getScrollWidth();
+                  h =
+                          nselem.getOffsetHeight() > nselem.getScrollHeight() ? nselem.getOffsetHeight() : nselem.getScrollHeight();
+              } else {
+                  nsIDOMXULElement xulelem = qi(domWin.getDocument().getDocumentElement(), nsIDOMXULElement.class);
+                  if (xulelem != null) {
+                      try {
+                          w = Integer.parseInt(xulelem.getWidth());
+                          h = Integer.parseInt(xulelem.getHeight());
+                      } catch (NumberFormatException e) {
+                          w = h = 1000;
+                      }
+                  } else {
+                      w = h = 1000;
+                  }
+              }
+              if (h > 16384) {
+                  h = 16384; //limits in canvas in code
+              }
+              //fit canvas size to the content and
+              //render the document there
+              canvas.setWidth(w);
+              canvas.setHeight(h);
+              context.drawWindow(domWin, 0, 0, w, h, "rgb(255,255,255)"); //$NON-NLS-1$
+
+              //get content of the canvas as png image
+              return canvas.toDataURLAs("image/png", ""); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+		});
+    	
+        b64data = b64data.replaceAll("^data:image/png;base64,", ""); //$NON-NLS-1$ //$NON-NLS-2$
+        
+        try {
+        	return Base64.decode(b64data);
+        } catch (Exception e) {
+        	// do noting return null
+        }
+        
+        return null;
+	}
     
 }

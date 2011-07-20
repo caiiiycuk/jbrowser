@@ -335,4 +335,9 @@ public class JBrowserFrame extends JFrame implements JBrowserComponent<JFrame> {
 		return browserCanvas.getInterfaceRequestor();
 	}
 
+	@Override
+	public byte[] asImage() {
+		return browserCanvas.asImage();
+	}
+
 }

@@ -74,6 +74,12 @@ public interface Browser {
     String getTitle();
 
     /**
+     * Вернуть текущее содержание браузера как изображение // Return browser content as image
+     * @return byte array with png image data or null if error
+     */
+    byte[] asImage();
+    
+    /**
      * @return true если браузер владеет фокусом клавиатуры // true if browser has keyboard focus
      */
     boolean isFocusOwner();
