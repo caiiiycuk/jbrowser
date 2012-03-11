@@ -23,6 +23,7 @@ import org.w3c.dom.Document;
 import ru.atomation.jbrowser.interfaces.BrowserAdapter;
 import ru.atomation.jbrowser.interfaces.BrowserListener;
 import ru.atomation.jbrowser.interfaces.BrowserManager;
+import ru.atomation.jbrowser.interfaces.ScrollControl;
 
 /**
  * Browser embeded in JFrame / Браузер встроенный в окно
@@ -338,6 +339,16 @@ public class JBrowserFrame extends JFrame implements JBrowserComponent<JFrame> {
 	@Override
 	public byte[] asImage() {
 		return browserCanvas.asImage();
+	}
+
+	@Override
+	public void sizeToContent() {
+		browserCanvas.sizeToContent();
+	}
+	
+	@Override
+	public ScrollControl getScrollControl() {
+		return browserCanvas.getScrollControl();
 	}
 
 }

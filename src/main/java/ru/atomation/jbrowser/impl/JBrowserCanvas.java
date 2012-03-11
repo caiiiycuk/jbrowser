@@ -2,6 +2,7 @@ package ru.atomation.jbrowser.impl;
 
 import static org.mozilla.browser.MozillaExecutor.isMozillaThread;
 import static org.mozilla.browser.MozillaExecutor.mozAsyncExec;
+import static org.mozilla.browser.MozillaExecutor.mozSyncExec;
 import static org.mozilla.browser.MozillaExecutor.mozSyncExecQuiet;
 import static org.mozilla.browser.MozillaExecutor.swingAsyncExec;
 import static org.mozilla.browser.XPCOMUtils.qi;
@@ -35,10 +36,10 @@ import org.mozilla.browser.common.Platform;
 import org.mozilla.browser.impl.EventBuffer;
 import org.mozilla.browser.impl.FocusWatcher;
 import org.mozilla.browser.impl.components.JFakeTooltip;
-import org.mozilla.browser.impl.jna.Gtk;
-import org.mozilla.browser.impl.jna.X11;
 import org.mozilla.browser.impl.jna.Gdk.GdkDisplay;
+import org.mozilla.browser.impl.jna.Gtk;
 import org.mozilla.browser.impl.jna.Gtk.GtkWindow;
+import org.mozilla.browser.impl.jna.X11;
 import org.mozilla.dom.NodeFactory;
 import org.mozilla.interfaces.nsIBaseWindow;
 import org.mozilla.interfaces.nsIClipboardCommands;
@@ -74,6 +75,7 @@ import org.w3c.dom.NodeList;
 
 import ru.atomation.jbrowser.abstracts.AbstractJBrowserCanvas;
 import ru.atomation.jbrowser.interfaces.BrowserManager;
+import ru.atomation.jbrowser.interfaces.ScrollControl;
 
 public class JBrowserCanvas extends AbstractJBrowserCanvas implements JBrowserComponent<Canvas>, nsIContextMenuListener {
 
@@ -102,6 +104,8 @@ public class JBrowserCanvas extends AbstractJBrowserCanvas implements JBrowserCo
 	protected nsIInterfaceRequestor interfaceRequestor;
 	protected nsIDocShell docShell;
 	protected nsIClipboardCommands clipboardCommands;
+	
+	protected final ScrollControl scrollControl;
     
     public JBrowserCanvas(BrowserManager browserManager) {
         super();
@@ -109,6 +113,7 @@ public class JBrowserCanvas extends AbstractJBrowserCanvas implements JBrowserCo
         this.browserManager = browserManager;
         this.eventBuffer = new EventBuffer();
         this.browserExsist = false;
+        this.scrollControl = new ScrollControlImpl(this);
     }
 
     private long createHandle() {
@@ -1112,5 +1117,20 @@ public class JBrowserCanvas extends AbstractJBrowserCanvas implements JBrowserCo
         
         return null;
 	}
-    
+
+	@Override
+	public void sizeToContent() {
+		mozSyncExec(new Runnable() {
+			@Override
+			public void run() {
+				getWebBrowser().getContentDOMWindow().sizeToContent();
+			}
+		});
+	}
+	
+	@Override
+	public ScrollControl getScrollControl() {
+		return scrollControl;
+	}
+
 }
