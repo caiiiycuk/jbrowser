@@ -162,8 +162,7 @@ public class JBrowserManager implements BrowserManager {
                     moz.initialize(foundXulrunnerDir);
                     LocationProvider locProvider = new LocationProvider(
                             foundXulrunnerDir, profilePath);
-                    moz.initEmbedding(foundXulrunnerDir, foundXulrunnerDir,
-                            locProvider, new XREAppData());
+                    moz.initEmbedding(foundXulrunnerDir, foundXulrunnerDir, locProvider);
 
                     if (profilePath != null) {
                         moz.lockProfileDirectory(profilePath);
@@ -222,9 +221,12 @@ public class JBrowserManager implements BrowserManager {
                     // String ver = appInfo.getPlatformVersion();
                     // System.err.println("s="+ver);
 
-                    nsIExtensionManager em = XPCOMUtils.getService(
-                            "@mozilla.org/extensions/manager;1", nsIExtensionManager.class); //$NON-NLS-1$
-                    em.start(null);
+//
+// FIXME: bring back nsiExtensionManager
+//
+//                    nsIExtensionManager em = XPCOMUtils.getService(
+//                            "@mozilla.org/extensions/manager;1", nsIExtensionManager.class); //$NON-NLS-1$
+//                    em.start(null);
 
                     // configure mozdom4java
                     ThreadProxy.setSingleton(new ThreadProxy() {

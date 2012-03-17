@@ -82,11 +82,11 @@
 			<version>${project.version}</version>
 		</dependency>
 
-		<dependency>
+<!-- 	<dependency>
 			<groupId>org.mozilla</groupId>
 			<artifactId>MozillaGlue</artifactId>
 			<version>${project.version}</version>
-		</dependency>
+		</dependency> -->
 
 		<dependency>
 			<groupId>org.mozilla</groupId>
