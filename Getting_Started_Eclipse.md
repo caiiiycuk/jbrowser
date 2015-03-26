@@ -8,6 +8,7 @@ To easy start with jbrowser you need eclipse with maven support
 
 * Open eclipse and create new empty maven project
 * Open pom.xml and set java compiler to 1.6:
+
 	```xml
 		<build>
 			<plugins>
@@ -25,6 +26,7 @@ To easy start with jbrowser you need eclipse with maven support
 		</build>
 	```
 * Add jbrowser maven repository
+
 	```xml
 		<repositories>
 			<repository>
@@ -46,6 +48,7 @@ To easy start with jbrowser you need eclipse with maven support
 		</repositories>
 	```
 * Add jbrowser dependency
+
 	```xml
 		<dependencies>
 			<dependency>
@@ -57,6 +60,7 @@ To easy start with jbrowser you need eclipse with maven support
 		</dependencies>
 	```
 * Add xulrunner native dependency
+
 	```xml
 	<dependencies>
 	    <dependency>
@@ -67,6 +71,7 @@ To easy start with jbrowser you need eclipse with maven support
 	</dependencies>
 	```
 * Finally, create main class of application
+
 	```java
 	/**
 	 * No restrictions for this source.
@@ -124,4 +129,5 @@ To easy start with jbrowser you need eclipse with maven support
 
 * Now run our project and you should see the project page
 
-You can find more examples [here] (Snippets_List.md)
+### Examples
+You can find examples [here] (Snippets_List.md)
