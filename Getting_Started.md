@@ -1,6 +1,4 @@
 # Getting started
-Easiest way to start with jbrowser is to see [examples](Snippets_List.md)
-[Getting started for Eclipse](Getting_Started_Eclipse.md)
 
 * Add maven repository to project pom.xml
 
@@ -99,3 +97,7 @@ Easiest way to start with jbrowser is to see [examples](Snippets_List.md)
   ```
 
 * When you run this application you should see web page with jbrowser home page
+
+See also:
+* Easiest way to start with jbrowser is to see [examples](Snippets_List.md)
+* [Getting started for Eclipse](Getting_Started_Eclipse.md)
