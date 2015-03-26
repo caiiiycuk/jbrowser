@@ -1,0 +1,103 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>ru.atomation.jbrowser</groupId>
+	<artifactId>jbrowser-snippets</artifactId>
+	<name>Snippets for jbrowser</name>
+	<version>1.9</version>
+	<description>Snippets shows how jbrowser work</description>
+	<url>atomation.ru</url>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<compilerVersion>1.6</compilerVersion>
+					<encoding>UTF-8</encoding>
+					<source>1.6</source>
+					<target>1.6</target>
+					<showDeprecation>true</showDeprecation>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>atomation-repository</id>
+			<name>atomation maven repository</name>
+			<url>http://atomation-repository.googlecode.com/svn/trunk</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+
+	<profiles>
+		<profile>
+			<id>generic</id>
+			<activation>
+				<activeByDefault></activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>linux</id>
+			<dependencies>
+				<dependency>
+					<groupId>ru.atomation.native</groupId>
+					<artifactId>xulrunner-linux</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>solaris</id>
+			<dependencies>
+				<dependency>
+					<groupId>ru.atomation.native</groupId>
+					<artifactId>xulrunner-solaris</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>macosx</id>
+			<dependencies>
+				<dependency>
+					<groupId>ru.atomation.native</groupId>
+					<artifactId>xulrunner-macosx</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>windows</id>
+			<dependencies>
+				<dependency>
+					<groupId>ru.atomation.native</groupId>
+					<artifactId>xulrunner-windows</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+
+	<dependencies>
+		<dependency>
+			<groupId>ru.atomation.jbrowser</groupId>
+			<artifactId>jbrowser</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+
+</project>
