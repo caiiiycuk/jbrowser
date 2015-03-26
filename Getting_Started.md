@@ -91,7 +91,7 @@
           frame.getContentPane().add(browser.getComponent());
           frame.setVisible(true);
   
-          browser.setUrl("http://code.google.com/p/jbrowser/");
+          browser.setUrl("https://github.com/caiiiycuk/jbrowser/");
       }
   }
   ```
