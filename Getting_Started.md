@@ -1,6 +1,6 @@
 # Getting started
 
-* Add maven repository to project pom.xml
+1. Add maven repository to project pom.xml
 
   ```xml
   <repositories>
@@ -23,7 +23,7 @@
   </repositories>
   ```
 
-* Add jbrowser dependency
+1. Add jbrowser dependency
   ```xml
     <dependencies>
       <dependency>
@@ -35,7 +35,7 @@
     </dependencies>
   ```
 
-* Add xulrunner native dependency
+1. Add xulrunner native dependency
  ```xml
    <dependencies>
       <dependency>
@@ -46,7 +46,7 @@
   </dependencies>
  ```
 
-* Write sample application:
+1. Write sample application:
 
   ```java
   package ru.atomation.jbrowser.snippets;
@@ -96,8 +96,8 @@
   }
   ```
 
-* When you run this application you should see web page with jbrowser home page
+1. When you run this application you should see web page with jbrowser home page
 
 See also:
 * Easiest way to start with jbrowser is to see [examples](Snippets_List.md)
-* [Getting started for Eclipse](Getting_Started_Eclipse.md)
+* [Getting started with Eclipse](Getting_Started_Eclipse.md)
